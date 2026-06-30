@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WealthSeva AI — Solution Architecture</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8fafa; color: #1a2e2a; line-height: 1.7; font-size: 16px; }
+  
+  .header { background: linear-gradient(135deg, #00836C, #006B57); padding: 40px 20px; text-align: center; color: white; }
+  .header h1 { font-size: 2.2rem; font-weight: 700; }
+  .header p { opacity: 0.85; margin-top: 8px; font-size: 1.1rem; }
+  .badge { display: inline-block; background: #F98220; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-top: 12px; color: white; }
+  
+  .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+  .section { margin-bottom: 36px; }
+  .section-title { font-size: 1.4rem; font-weight: 700; color: #00836C; margin-bottom: 18px; border-bottom: 2px solid #00836C20; padding-bottom: 8px; }
+  
+  .flow { display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 20px 0; }
+  .flow-box { background: white; border-radius: 12px; padding: 14px 16px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); min-width: 130px; }
+  .flow-box.teal { background: #00836C; color: white; }
+  .flow-box.orange { background: #F98220; color: white; }
+  .flow-box h4 { font-size: 0.9rem; font-weight: 700; margin-top: 4px; }
+  .flow-box p { font-size: 0.75rem; opacity: 0.8; margin-top: 2px; }
+  .flow-box .icon { font-size: 1.6rem; }
+  .arrow { color: #00836C; font-weight: bold; font-size: 1.2rem; }
+  
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .card { background: white; border-radius: 10px; padding: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  .card.bordered-teal { border-left: 3px solid #00836C; }
+  .card.bordered-orange { border-left: 3px solid #F98220; }
+  .card h4 { font-size: 0.8rem; color: #5f7a74; text-transform: uppercase; letter-spacing: 0.5px; }
+  .card p { font-size: 1rem; font-weight: 600; margin-top: 4px; }
+  .card span { font-size: 0.85rem; color: #5f7a74; }
+
+  .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .feature { background: white; border-radius: 10px; padding: 12px; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.03); }
+  .feature h4 { font-size: 0.9rem; font-weight: 600; margin-top: 4px; }
+  .feature p { font-size: 0.8rem; color: #5f7a74; margin-top: 3px; }
+
+  .diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .diff { display: flex; gap: 8px; align-items: flex-start; background: white; padding: 10px 12px; border-radius: 8px; }
+  .diff .num { background: #00836C; color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
+  .diff p { font-size: 0.9rem; }
+
+  .scale-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .scale-table th { background: #00836C; color: white; padding: 10px 12px; text-align: left; }
+  .scale-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+  .scale-table tr:nth-child(even) { background: #f8fafa; }
+
+  .footer { text-align: center; padding: 24px; color: #5f7a74; font-size: 0.7rem; border-top: 1px solid #e5e7eb; }
+
+  @media (max-width: 768px) { .flow { flex-direction: column; } .arrow { transform: rotate(90deg); } .grid-2, .grid-3, .diff-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>WealthSeva AI</h1>
+  <p>AI-Powered Digital Wealth Advisory Platform for IDBI Bank</p>
+  <div class="badge">IDBI Innovate 2026 × Hack2Skill × AWS</div>
+</div>
+
+<div class="container">
+
+<!-- Problem & Solution -->
+<div class="section">
+  <h2 class="section-title">Problem → Solution</h2>
+  <div class="grid-2">
+    <div class="card bordered-orange">
+      <h4>Challenge</h4>
+      <p>Wealth advisory is fragmented & inaccessible to most customers</p>
+      <span>No personalized, data-driven guidance. No vernacular support.</span>
+    </div>
+    <div class="card bordered-teal">
+      <h4>Solution</h4>
+      <p>AI avatar advisor that knows your complete financial life</p>
+      <span>Context-aware, multilingual, proactive, available 24/7 in-app.</span>
+    </div>
+  </div>
+</div>
+
+<!-- Architecture Flow -->
+<div class="section">
+  <h2 class="section-title">Architecture</h2>
+  <div class="flow">
+    <div class="flow-box"><div class="icon">👤</div><h4>Customer</h4><p>Web / Mobile</p></div>
+    <span class="arrow">→</span>
+    <div class="flow-box teal"><div class="icon">⚛️</div><h4>React + Tailwind</h4><p>Multi-language UI</p></div>
+    <span class="arrow">→</span>
+    <div class="flow-box teal"><div class="icon">🖥️</div><h4>Node.js API</h4><p>Express + REST</p></div>
+    <span class="arrow">→</span>
+    <div class="flow-box orange"><div class="icon">🧠</div><h4>AWS Bedrock</h4><p>Claude Sonnet 4.5</p></div>
+  </div>
+  <p style="text-align:center; font-size:0.7rem; color:#5f7a74; margin-top:8px;">Voice I/O via Web Speech API | D-ID Avatar (optional) | Deployed on EC2</p>
+</div>
+
+<!-- Tech Stack -->
+<div class="section">
+  <h2 class="section-title">Tech Stack</h2>
+  <div class="grid-3">
+    <div class="card bordered-teal"><h4>Frontend</h4><p>React + Vite</p><span>Tailwind, Recharts, Web Speech</span></div>
+    <div class="card bordered-teal"><h4>Backend</h4><p>Node.js + Express</p><span>REST API, JWT, In-Memory Store</span></div>
+    <div class="card bordered-orange"><h4>AI Engine</h4><p>AWS Bedrock</p><span>Claude Sonnet 4.5 — context-aware</span></div>
+    <div class="card bordered-orange"><h4>Voice</h4><p>Web Speech API</p><span>Voice input + speech output</span></div>
+    <div class="card bordered-orange"><h4>Avatar</h4><p>D-ID API</p><span>Lip-synced video (toggle)</span></div>
+    <div class="card bordered-teal"><h4>Deploy</h4><p>AWS EC2</p><span>Always-on, auto-restart, production-ready</span></div>
+  </div>
+</div>
+
+<!-- Features -->
+<div class="section">
+  <h2 class="section-title">Key Features (All Working)</h2>
+  <div class="feature-list">
+    <div class="feature"><h4>🗣️ AI Wealth Advisor</h4><p>Context-aware, knows all your data, responds in your language</p></div>
+    <div class="feature"><h4>🎤 Voice Chat</h4><p>Speak to your advisor, get spoken responses back</p></div>
+    <div class="feature"><h4>📊 Financial Health Score</h4><p>0-100 with 5 sub-dimensions, personalized tips</p></div>
+    <div class="feature"><h4>🏦 Account Aggregation</h4><p>IDBI + external banks + investments + assets + income</p></div>
+    <div class="feature"><h4>🎯 Smart Goals</h4><p>SIP calculator, tax planning, wealth projection</p></div>
+    <div class="feature"><h4>💳 Product Eligibility</h4><p>Instant check for loans, cards, insurance</p></div>
+    <div class="feature"><h4>🔔 Proactive Nudges</h4><p>Salary-day SIP reminder with confirmation flow</p></div>
+    <div class="feature"><h4>📋 Bills & Credit Score</h4><p>Upcoming bills tracker + CIBIL improvement plan</p></div>
+    <div class="feature"><h4>🛡️ Responsible AI</h4><p>Unbiased, no stock tips, affordability guard</p></div>
+    <div class="feature"><h4>🌐 3 Languages</h4><p>Hindi, English, Kannada — full UI + AI responses</p></div>
+    <div class="feature"><h4>💰 Affordability Guard</h4><p>Prevents over-commitment, protects customers</p></div>
+    <div class="feature"><h4>🏠 Complete Net Worth</h4><p>Bank + Investments + Insurance + Assets + Income</p></div>
+  </div>
+</div>
+
+<!-- Differentiators -->
+<div class="section">
+  <h2 class="section-title">Why This Solution Works for IDBI Bank Customers </h2>
+  <div class="diff-grid">
+    <div class="diff"><span class="num">1</span><p><strong>Vernacular-first</strong> — serves Tier 2/3 India where English fails</p></div>
+    <div class="diff"><span class="num">2</span><p><strong>360° data awareness</strong> — AI knows salary, bills, goals, credit score, spending</p></div>
+    <div class="diff"><span class="num">3</span><p><strong>Proactive advisor</strong> — pushes insights before customer asks</p></div>
+    <div class="diff"><span class="num">4</span><p><strong>Complete wealth view</strong> — first app to aggregate bank + assets + income</p></div>
+    <div class="diff"><span class="num">5</span><p><strong>Voice-enabled</strong> — speak to your advisor in your language</p></div>
+    <div class="diff"><span class="num">6</span><p><strong>Responsible & safe</strong> — affordability checks, no false promises</p></div>
+    <div class="diff"><span class="num">7</span><p><strong>Working prototype</strong> — every feature is functional, not just UI</p></div>
+    <div class="diff"><span class="num">8</span><p><strong>Scale-ready</strong> — documented migration path to microservices</p></div>
+  </div>
+</div>
+
+<!-- Scale Path -->
+<div class="section">
+  <h2 class="section-title">Production Scale Path</h2>
+  <table class="scale-table">
+    <tr><th>Current (Demo)</th><th>Production (Phase 2)</th><th>Why</th></tr>
+    <tr><td>Express monolith</td><td>API Gateway + Lambda</td><td>Auto-scales to millions</td></tr>
+    <tr><td>In-memory store</td><td>DynamoDB</td><td>Persistent, encrypted</td></tr>
+    <tr><td>Web Speech API</td><td>Amazon Transcribe + Polly</td><td>Works on all devices</td></tr>
+    <tr><td>D-ID toggle</td><td>D-ID streaming always-on</td><td>Consistent avatar experience</td></tr>
+    <tr><td>Mock auth</td><td>Cognito + IDBI SSO</td><td>Real customer identity</td></tr>
+    <tr><td>Mock transactions</td><td>Core Banking API adapter</td><td>Real-time data</td></tr>
+    <tr><td>3 languages</td><td>12+ Indian languages</td><td>Translation strings only</td></tr>
+    <tr><td>Single EC2</td><td>ECS Fargate + CloudFront</td><td>High availability</td></tr>
+  </table>
+</div>
+
+</div>
+
+<div class="footer">
+  <p><strong style="color:#00836C;">WealthSeva AI</strong> — Making wealth advisory accessible to every Indian</p>
+  <p style="margin-top:4px;">Built for IDBI Innovate 2026 × Hack2Skill × AWS Bedrock</p>
+</div>
+
+</body>
+</html>

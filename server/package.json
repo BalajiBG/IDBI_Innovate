@@ -1,0 +1,18 @@
+{
+  "name": "wealthseva-server",
+  "version": "1.0.0",
+  "description": "WealthSeva AI Backend — IDBI Innovate Hackathon",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.600.0",
+    "@aws-sdk/client-polly": "^3.600.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

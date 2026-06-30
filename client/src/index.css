@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans;
+    background-color: #F8FAFA;
+    color: #1A2E2A;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-2xl shadow-md p-4;
+  }
+
+  .btn-primary {
+    background-color: #F98220;
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    transition: background-color 0.2s;
+  }
+  .btn-primary:hover {
+    background-color: #E06D0E;
+  }
+  .btn-primary:disabled {
+    opacity: 0.5;
+  }
+
+  .btn-secondary {
+    background-color: #00836C;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+  }
+  .btn-secondary:hover {
+    background-color: #006B57;
+  }
+
+  .btn-outline {
+    border: 1.5px solid #00836C;
+    color: #00836C;
+    font-weight: 500;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover {
+    background-color: #00836C;
+    color: white;
+  }
+
+  .progress-bar {
+    @apply h-2 rounded-full overflow-hidden bg-gray-200;
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full transition-all duration-1000 ease-out;
+  }
+
+  .status-pill {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+}
+
+/* Sound wave animation */
+.sound-wave-bar {
+  animation: wave 1.2s ease-in-out infinite;
+}
+.sound-wave-bar:nth-child(2) { animation-delay: 0.1s; }
+.sound-wave-bar:nth-child(3) { animation-delay: 0.2s; }
+.sound-wave-bar:nth-child(4) { animation-delay: 0.3s; }
+.sound-wave-bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1.2); }
+}
+
+.typewriter-cursor::after {
+  content: '|';
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
