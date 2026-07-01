@@ -19,5 +19,8 @@ export const api = {
   getSpendingBreakdown: () => request('/data/spending-breakdown'),
   sendChat: (message, sessionId) => request('/chat', { method: 'POST', body: JSON.stringify({ message, sessionId }) }),
   speakAvatar: (text) => request('/avatar/speak', { method: 'POST', body: JSON.stringify({ text }) }),
-  getAvatarStatus: () => request('/avatar/status')
+  getAvatarStatus: () => request('/avatar/status'),
+  getSmartNudge: () => request('/data/smart-nudge'),
+  saveNudgeAction: (action) => request('/data/nudge-actions', { method: 'POST', body: JSON.stringify(action) }),
+  getNudgeActions: () => request('/data/nudge-actions')
 };

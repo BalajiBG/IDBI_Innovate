@@ -66,7 +66,7 @@ router.get('/wealth-vitals', (req, res) => {
     calculation: {
       emergencyFund: { saved: emergencySaved, target: emergencyTarget, pct: Math.round(emergencyPct * 100) },
       debtRatio: { emi, salary, ratio: Math.round(emiRatio * 100) },
-      savingsRate: { invested: rdInvestment, salary, rate: (effectiveSavingsRate * 100).toFixed(1) },
+      savingsRate: { invested: rdInvestment, salary, rate: (effectiveRate * 100).toFixed(1) },
       diversity: { current: assetTypes, ideal: idealTypes },
       goalProgress: { avg: Math.round(avgProgress * 100) }
     }
@@ -87,6 +87,123 @@ router.get('/products', (req, res) => {
     cta: typeof p.cta === 'object' ? (p.cta[lang] || p.cta.hi) : p.cta
   }));
   res.json(localizedProducts);
+});
+
+// ═══ Nudge Actions Tracking (in-memory persistence) ═══
+// Tracks which nudge actions the customer has already completed
+const completedNudgeActions = [];
+
+// GET /api/data/nudge-actions
+router.get('/nudge-actions', (req, res) => {
+  res.json(completedNudgeActions);
+});
+
+// POST /api/data/nudge-actions
+router.post('/nudge-actions', (req, res) => {
+  const action = req.body;
+  action.id = `nudge-${Date.now()}`;
+  action.completedAt = new Date().toISOString();
+  completedNudgeActions.unshift(action);
+  res.json({ success: true, action });
+});
+
+// GET /api/data/smart-nudge — returns the next best nudge based on what's already done
+router.get('/smart-nudge', (req, res) => {
+  const salary = customerProfile.monthlySalary; // ₹65,000
+  const surplus = monthlyBreakdown.monthlySurplus; // ₹17,300
+
+  // Calculate how much has already been contributed to emergency fund via nudges
+  const emergencyContributions = completedNudgeActions
+    .filter(a => a.purpose === 'Emergency Fund')
+    .reduce((sum, a) => sum + (a.amount || 0), 0);
+
+  const emergencyTarget = customerProfile.goals[1].targetAmount; // ₹1,95,000
+  const emergencyBaseSaved = customerProfile.goals[1].savedSoFar; // ₹1,20,000
+  const emergencyTotalSaved = emergencyBaseSaved + emergencyContributions;
+  const emergencyRemaining = Math.max(0, emergencyTarget - emergencyTotalSaved);
+  const emergencyPct = Math.min(100, Math.round((emergencyTotalSaved / emergencyTarget) * 100));
+
+  // Calculate total already actioned this cycle
+  const totalActioned = completedNudgeActions
+    .filter(a => {
+      const d = new Date(a.completedAt);
+      const now = new Date();
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    })
+    .reduce((sum, a) => sum + (a.amount || 0), 0);
+
+  const remainingSurplus = Math.max(0, surplus - totalActioned);
+
+  // Determine which nudge to show based on priority and what's already done
+  let nudge = null;
+
+  if (emergencyRemaining > 0 && remainingSurplus > 0) {
+    // Emergency fund still not complete — suggest contributing
+    const suggestedAmount = Math.min(emergencyRemaining, remainingSurplus, Math.round(emergencyRemaining / 4));
+    nudge = {
+      type: 'emergency_fund',
+      purpose: 'Emergency Fund',
+      title: { hi: 'Seva की सलाह', en: "Seva's Advice", kn: 'Seva ನ ಸಲಹೆ' },
+      message: {
+        hi: `Rajesh ji, आपका Emergency Fund ${emergencyPct}% पूरा हो चुका है। बस ₹${emergencyRemaining.toLocaleString('en-IN')} और चाहिए। इस महीने ₹${suggestedAmount.toLocaleString('en-IN')} जमा करें।`,
+        en: `Rajesh, your Emergency Fund is ${emergencyPct}% complete. Just ₹${emergencyRemaining.toLocaleString('en-IN')} more needed. Transfer ₹${suggestedAmount.toLocaleString('en-IN')} this month.`,
+        kn: `ರಾಜೇಶ್, ನಿಮ್ಮ ತುರ್ತು ನಿಧಿ ${emergencyPct}% ಪೂರ್ಣ. ₹${emergencyRemaining.toLocaleString('en-IN')} ಮಾತ್ರ ಬಾಕಿ. ₹${suggestedAmount.toLocaleString('en-IN')} ಈ ತಿಂಗಳು ವರ್ಗಾಯಿಸಿ.`
+      },
+      suggestedAmount,
+      fromAccount: 'IDBI Savings XXXX-4521',
+      toAccount: 'IDBI Emergency Fund RD',
+      emergencyPct,
+      emergencyRemaining,
+      remainingSurplus
+    };
+  } else if (emergencyRemaining <= 0 && remainingSurplus > 0) {
+    // Emergency fund done! Suggest SIP or other investment
+    const sipAmount = Math.min(remainingSurplus, 5000);
+    nudge = {
+      type: 'sip_investment',
+      purpose: 'SIP Investment',
+      title: { hi: 'Seva की सलाह', en: "Seva's Advice", kn: 'Seva ನ ಸಲಹೆ' },
+      message: {
+        hi: `🎉 Rajesh ji, Emergency Fund पूरा हो गया! अब ₹${sipAmount.toLocaleString('en-IN')}/महीना SIP शुरू करें। Long-term wealth बनेगी।`,
+        en: `🎉 Rajesh, Emergency Fund is complete! Now start a ₹${sipAmount.toLocaleString('en-IN')}/month SIP for long-term wealth building.`,
+        kn: `🎉 ರಾಜೇಶ್, ತುರ್ತು ನಿಧಿ ಪೂರ್ಣ! ₹${sipAmount.toLocaleString('en-IN')}/ತಿಂಗಳು SIP ಶುರು ಮಾಡಿ.`
+      },
+      suggestedAmount: sipAmount,
+      fromAccount: 'IDBI Savings XXXX-4521',
+      toAccount: 'IDBI Mutual Fund SIP',
+      emergencyPct: 100,
+      emergencyRemaining: 0,
+      remainingSurplus
+    };
+  } else if (remainingSurplus <= 0) {
+    // No surplus left this month
+    nudge = {
+      type: 'no_action',
+      purpose: 'None',
+      title: { hi: 'अच्छा काम!', en: 'Good Job!', kn: 'ಒಳ್ಳೆಯ ಕೆಲಸ!' },
+      message: {
+        hi: `Rajesh ji, इस महीने आपने अच्छी बचत की है! अगले salary के बाद और nudge मिलेगा।`,
+        en: `Rajesh, you've done great saving this month! You'll get the next suggestion after your salary credit.`,
+        kn: `ರಾಜೇಶ್, ಈ ತಿಂಗಳು ಚೆನ್ನಾಗಿ ಉಳಿಸಿದ್ದೀರಿ! ಮುಂದಿನ salary ನಂತರ ಮತ್ತೆ ಸಲಹೆ ಬರುತ್ತದೆ.`
+      },
+      suggestedAmount: 0,
+      fromAccount: '',
+      toAccount: '',
+      remainingSurplus: 0
+    };
+  }
+
+  res.json({
+    nudge,
+    completedActions: completedNudgeActions,
+    summary: {
+      emergencyPct,
+      emergencyRemaining,
+      totalActionedThisMonth: totalActioned,
+      remainingSurplus,
+      monthlySurplus: surplus
+    }
+  });
 });
 
 // ═══ Custom Savings Goals (in-memory persistence) ═══
