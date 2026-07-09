@@ -16,21 +16,21 @@ export default function Header() {
     <header className="px-4 pt-4 pb-3">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-text-primary font-hindi">
+          <h1 className="text-xl font-bold text-white font-hindi">
             {t('greeting', language, { name })}
           </h1>
         </div>
         <button onClick={() => navigate('/profile')} className="relative">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-idbi-orange to-idbi-teal flex items-center justify-center text-white text-sm font-bold">
+          <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center text-white text-sm font-bold border border-white/30">
             {name.charAt(0).toUpperCase()}
           </div>
-          <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-success rounded-full border-2 border-white animate-pulse-slow" />
+          <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-idbi-orange rounded-full border-2 border-white animate-pulse-slow" />
         </button>
       </div>
 
       <div className="flex items-center gap-2 mt-2">
-        <span className="text-xs text-text-secondary">{dateStr}</span>
-        <span className="status-pill bg-success/10 text-success">
+        <span className="text-xs text-emerald-100">{dateStr}</span>
+        <span className="status-pill bg-white/15 text-emerald-100">
           {t('salary_credited', language)}
         </span>
       </div>

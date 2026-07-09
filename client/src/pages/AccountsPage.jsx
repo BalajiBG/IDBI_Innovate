@@ -304,11 +304,11 @@ export default function AccountsPage() {
     <div className="space-y-5 animate-fade-in">
       {/* Header */}
       <div>
-        <button onClick={() => navigate('/')} className="flex items-center gap-1 text-xs text-idbi-teal font-medium mb-2">
+        <button onClick={() => navigate('/')} className="flex items-center gap-1 text-xs text-idbi-orange font-medium mb-2">
           ← {language === 'hi' ? 'होम' : language === 'kn' ? 'ಮುಖಪುಟ' : 'Home'}
         </button>
-        <h2 className="text-lg font-bold text-text-primary font-hindi">{l('title')}</h2>
-        <p className="text-xs text-text-secondary font-hindi">{l('subtitle')}</p>
+        <h2 className="text-lg font-bold text-idbi-orange font-hindi">{l('title')}</h2>
+        <p className="text-xs text-emerald-100 font-hindi">{l('subtitle')}</p>
       </div>
 
       {/* Total Wealth Card */}
@@ -337,7 +337,7 @@ export default function AccountsPage() {
       {/* IDBI Accounts */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-sm font-semibold text-text-primary">{l('idbiAccounts')}</p>
+          <p className="text-sm font-semibold text-idbi-orange">{l('idbiAccounts')}</p>
         </div>
         <div className="space-y-2">
           {idbiAccountsData.map(account => (
@@ -360,7 +360,7 @@ export default function AccountsPage() {
       {/* My Investment Portfolio */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-sm font-semibold text-text-primary">{l('linkedAccounts')}</p>
+          <p className="text-sm font-semibold text-idbi-orange">{l('linkedAccounts')}</p>
           <button onClick={() => { setAddType('external'); setShowAddModal(true); }} className="text-xs text-idbi-orange font-medium">
             {l('addExternal')}
           </button>
@@ -393,7 +393,7 @@ export default function AccountsPage() {
       {/* My Insurances */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-sm font-semibold text-text-primary">
+          <p className="text-sm font-semibold text-idbi-orange">
             {language === 'hi' ? 'मेरी बीमा पॉलिसी' : language === 'kn' ? 'ನನ್ನ ವಿಮೆ ಪಾಲಿಸಿ' : 'My Insurances'}
           </p>
           <button onClick={() => setShowInsuranceModal(true)} className="text-xs text-idbi-orange font-medium">
@@ -444,7 +444,7 @@ export default function AccountsPage() {
       {/* My Assets */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-sm font-semibold text-text-primary">
+          <p className="text-sm font-semibold text-idbi-orange">
             {language === 'hi' ? 'मेरी संपत्ति' : language === 'kn' ? 'ನನ್ನ ಆಸ್ತಿಗಳು' : 'My Assets'}
           </p>
           <button onClick={() => setShowAssetModal(true)} className="text-xs text-idbi-orange font-medium">
@@ -506,7 +506,7 @@ export default function AccountsPage() {
       {/* My Other Income */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <p className="text-sm font-semibold text-text-primary">
+          <p className="text-sm font-semibold text-idbi-orange">
             {language === 'hi' ? 'मेरी अन्य आय' : language === 'kn' ? 'ನನ್ನ ಇತರ ಆದಾಯ' : 'My Other Income'}
           </p>
           <button onClick={() => setShowIncomeModal(true)} className="text-xs text-idbi-orange font-medium">
@@ -564,7 +564,7 @@ export default function AccountsPage() {
       </div>
 
       {/* RBI Consent Note */}
-      <p className="text-[11px] text-text-secondary text-center px-4 font-hindi">
+      <p className="text-[11px] text-idbi-orange text-center px-4 font-hindi">
         🔒 {l('consentNote')}
       </p>
 

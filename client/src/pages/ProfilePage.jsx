@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { formatINR } from '../utils/formatCurrency';
 
@@ -50,6 +51,7 @@ const defaultProfile = {
 
 export default function ProfilePage() {
   const { language } = useLanguage();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState(defaultProfile);
   const [showSaved, setShowSaved] = useState(false);
 
@@ -112,8 +114,11 @@ export default function ProfilePage() {
   return (
     <div className="space-y-4 animate-fade-in">
       <div>
-        <h2 className="text-lg font-bold text-text-primary font-hindi">{l('title')}</h2>
-        <p className="text-xs text-text-secondary font-hindi">{l('subtitle')}</p>
+        <button onClick={() => navigate('/')} className="flex items-center gap-1 text-xs text-idbi-orange font-medium mb-2">
+          ← {language === 'hi' ? 'होम' : language === 'kn' ? 'ಮುಖಪುಟ' : 'Home'}
+        </button>
+        <h2 className="text-lg font-bold text-idbi-orange font-hindi">{l('title')}</h2>
+        <p className="text-xs text-emerald-100 font-hindi">{l('subtitle')}</p>
       </div>
 
       {showSaved && (

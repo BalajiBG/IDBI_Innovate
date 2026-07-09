@@ -236,7 +236,7 @@ export default function ProductsPage() {
   return (
     <div className="space-y-4 animate-fade-in">
       <div>
-        <h2 className="text-lg font-bold text-text-primary font-hindi">{l('title')}</h2>
+        <h2 className="text-lg font-bold text-idbi-orange font-hindi">{l('title')}</h2>
         <p className="text-xs text-text-secondary font-hindi">{l('subtitle')}</p>
       </div>
 
@@ -298,7 +298,7 @@ export default function ProductsPage() {
       )}
 
       {/* Responsible AI Disclaimer */}
-      <p className="text-[10px] text-text-secondary text-center px-4 pt-2 font-hindi">
+      <p className="text-[10px] text-idbi-orange text-center px-4 pt-2 font-hindi">
         {language === 'hi' ? '⚖️ यह जानकारी सूचनात्मक है। निवेश बाजार जोखिम के अधीन है। अंतिम निर्णय लेने से पहले विशेषज्ञ से परामर्श लें।' :
          language === 'kn' ? '⚖️ ಈ ಮಾಹಿತಿ ಕೇವಲ ಮಾಹಿತಿಗಾಗಿ. ಹೂಡಿಕೆ ಮಾರುಕಟ್ಟೆ ಅಪಾಯಕ್ಕೆ ಒಳಪಟ್ಟಿದೆ. ಅಂತಿಮ ನಿರ್ಧಾರ ಮಾಡುವ ಮೊದಲು ತಜ್ಞರನ್ನು ಸಂಪರ್ಕಿಸಿ.' :
          '⚖️ This information is for guidance only. Investments are subject to market risks. Consult an expert before making final decisions.'}

@@ -35,7 +35,7 @@ export default function SpendingPage() {
   return (
     <div className="space-y-5 animate-fade-in">
       <div>
-        <h2 className="text-lg font-bold text-text-primary font-hindi">{t('spending_title', language)}</h2>
+        <h2 className="text-lg font-bold text-idbi-orange font-hindi">{t('spending_title', language)}</h2>
         <p className="text-xs text-text-secondary">{t('spending_subtitle', language)}</p>
       </div>
 

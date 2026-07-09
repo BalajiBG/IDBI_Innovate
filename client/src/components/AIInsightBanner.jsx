@@ -120,13 +120,7 @@ export default function AIInsightBanner() {
   const insight = insights[currentIndex % insights.length];
   if (!insight) return null;
 
-  const bgColor = {
-    alert: 'bg-idbi-orange/5 border-idbi-orange/20',
-    critical: 'bg-red-50 border-red-200',
-    opportunity: 'bg-idbi-teal/5 border-idbi-teal/20',
-    tip: 'bg-amber-50 border-amber-200',
-    progress: 'bg-success/5 border-success/20'
-  }[insight.type] || 'bg-surface border-gray-200';
+  const bgColor = 'bg-white border-white/50';
 
   const aiLabel = {
     hi: 'सलाहकार सुझाव',

@@ -122,7 +122,7 @@ export default function ChatPage() {
         {/* Avatar Video Toggle - uses browser speech */}
         <button
           onClick={() => setAvatarEnabled(!avatarEnabled)}
-          className={`px-2 py-1 rounded-full text-[9px] font-medium transition-all ${avatarEnabled ? 'bg-idbi-orange text-white' : 'bg-white/20 text-white/70'}`}
+          className={`px-2 py-1 rounded-full text-[9px] font-medium transition-all ${avatarEnabled ? 'bg-idbi-orange text-white' : 'bg-idbi-orange/80 text-white'}`}
         >
           {avatarEnabled ? '🔊 ON' : '🔊 OFF'}
         </button>

@@ -36,7 +36,7 @@ export default function QuickPromptChips({ onSelect, disabled }) {
             key={i}
             onClick={() => onSelect(prompt)}
             disabled={disabled}
-            className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border border-idbi-teal/20 text-idbi-teal bg-idbi-teal/5 hover:bg-idbi-teal/10 disabled:opacity-50 transition-colors font-hindi whitespace-nowrap"
+            className="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border border-white/30 text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 transition-colors font-hindi whitespace-nowrap"
           >
             {prompt}
           </button>

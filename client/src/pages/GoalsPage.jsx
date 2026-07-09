@@ -159,7 +159,7 @@ export default function GoalsPage() {
   return (
     <div className="space-y-4 animate-fade-in">
       <div>
-        <h2 className="text-lg font-bold text-text-primary font-hindi">{t('goals_title', language)}</h2>
+        <h2 className="text-lg font-bold text-idbi-orange font-hindi">{t('goals_title', language)}</h2>
       </div>
 
       {/* Wealth Growth Plan */}
@@ -406,7 +406,7 @@ export default function GoalsPage() {
       {/* Create New Savings Goal Button */}
       <button
         onClick={() => setShowCreate(true)}
-        className="w-full py-4 border-2 border-dashed border-idbi-teal/30 rounded-2xl text-sm font-semibold text-idbi-teal hover:border-idbi-teal hover:bg-idbi-teal/5 transition-colors font-hindi"
+        className="w-full py-4 border-2 border-dashed border-idbi-orange/30 rounded-2xl text-sm font-semibold text-idbi-orange hover:border-idbi-orange hover:bg-idbi-orange/5 transition-colors font-hindi"
       >
         + {l('createTitle')}
       </button>
