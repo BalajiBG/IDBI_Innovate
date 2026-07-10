@@ -1,0 +1,57 @@
+Login page
+"This is the WealthSeva AI welcome page, designed to provide customers with instant, personalized wealth management guidance anytime, anywhere."
+"The page offers multilingual access, secure customer login, and seamless entry into an AI-powered financial advisory experience powered by AWS Bedrock."
+"Simply choose your preferred language, enter your Customer ID and PIN, and click Login to start interacting with your personal AI wealth advisor."
+
+Profile page
+
+"Understanding lifestyle and family commitments enables WealthSeva AI to create financial plans that are realistic, personalized, and actionable."
+"The page provides a comprehensive view of household demographics, monthly expenses, and key financial health indicators."
+"Simply enter your family and expense details, and the platform will generate personalized insights to optimize savings and investment decisions."
+
+Home page
+"To help customers make smarter financial decisions, WealthSeva AI consolidates key financial indicators into a single, easy-to-understand dashboard."
+"This dashboard displays your accounts, bill reminders, credit score, financial health score, and AI-powered recommendations tailored to your financial journey."
+"Simply review your scores, track upcoming commitments, and act on WealthSeva AI recommendations to continuously improve your financial health."
+
+My Accounts page
+"To create a complete picture of your financial life, WealthSeva AI brings together all your assets, investments, income sources, and obligations in one place."
+"The page offers a 360-degree view of your net worth by aggregating banking, investments, insurance, assets, liabilities, and other income information."
+"Simply add or review your financial details, and WealthSeva AI will use this information to provide tailored wealth-building and protection strategies."
+
+Upcoming bills page
+"customers stay on top of their financial commitments by providing a consolidated view of all upcoming bills and recurring payments."
+"The page offers a consolidated view of all upcoming financial obligations, organized by category and summarized with a monthly total."
+"Simply review upcoming bills, prioritize payments, and customers can use the insights to plan your spending and savings more effectively."
+
+Credit score page
+"A strong credit score is the foundation of financial success, and this page helps customers track, understand, and improve their credit health."
+"This page provides a detailed credit score analysis, highlights positive and negative factors, and offers personalized recommendations for improvement."
+"Customers can monitor their credit score, understand what influences it, and follow the AI-generated action plan to achieve stronger financial health."
+
+Financial Health Score and Insights
+"WealthSeva AI goes beyond account balances by assessing your complete financial health and highlighting opportunities for improvement."
+"The page combines financial health scoring, goal tracking, and proactive wealth advisor insights into a single actionable view."
+"Customers can review thier financial health metrics, identify improvement areas, and follow the advisor recommendations to steadily strengthen your financial position."
+
+Seva page
+"This conversational AI experience with text and audio makes financial planning effortless by bringing expert guidance directly to every customer."
+"The page delivers personalized financial insights, interactive wealth guidance, contextual recommendations, and integrated support through a chat and voice based interface. This page also helps customer to reach IDBI customer care channels"
+"Engage with Seva AI just like a financial advisor, ask questions via text or voice, explore recommendations, and take informed actions to improve your financial well-being."
+
+Spending page
+"The Money Story page converts complex financial transactions into a clear and actionable picture of how income is earned, spent, and saved."
+"This page presents income allocation, detailed expense categorization, monthly spending analytics, and six-month trend analysis powered by transaction data."
+"Customers can simply review thier spending patterns, monitor trends, and act on the insights to improve budgeting, increase savings, and accelerate wealth creation."
+
+Goals page
+"The Goal Planning dashboard empowers customers to visualize their future wealth and create a structured path toward achieving life’s most important financial goals."
+"The page presents personalized wealth projections, goal-based planning for education, emergency funds, retirement, and tax savings, along with Seva AI recommendations to stay on track."
+"Customers can simply review thier goals, assess current progress, and act on the personalized recommendations to accelerate journey toward financial success."
+
+Products page
+"Finding the right financial products can be overwhelming, so WealthSeva AI identifies and recommends the most relevant solutions based on each customer's needs."
+"The page combines AI-powered product recommendations, priority indicators, key benefits, and seamless onboarding actions into a single personalized experience."
+"Review the recommended products, understand their value, and instantly take action to accelerate your savings, protection, and wealth creation goals."
+
+

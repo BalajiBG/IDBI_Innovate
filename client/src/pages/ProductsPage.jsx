@@ -237,7 +237,7 @@ export default function ProductsPage() {
     <div className="space-y-4 animate-fade-in">
       <div>
         <h2 className="text-lg font-bold text-idbi-orange font-hindi">{l('title')}</h2>
-        <p className="text-xs text-text-secondary font-hindi">{l('subtitle')}</p>
+        <p className="text-xs text-white font-hindi">{l('subtitle')}</p>
       </div>
 
       {/* Tabs */}

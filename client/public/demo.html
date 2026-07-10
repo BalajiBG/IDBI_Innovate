@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthSeva AI — Product Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #1a1a2e; color: #fff; overflow: hidden; }
+    
+    .demo-container {
+      width: 100vw; height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    
+    .slide {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; padding: 40px;
+      opacity: 0; transform: translateY(30px);
+      transition: all 0.8s ease;
+      pointer-events: none;
+    }
+    .slide.active {
+      opacity: 1; transform: translateY(0);
+      pointer-events: auto;
+    }
+    
+    .slide-title {
+      font-size: 2.5rem; font-weight: 800;
+      text-align: center; margin-bottom: 16px;
+      background: linear-gradient(135deg, #F98220, #00836C);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .slide-subtitle {
+      font-size: 1.1rem; color: #aaa; text-align: center;
+      max-width: 700px; line-height: 1.7;
+    }
+    
+    .phone-frame {
+      width: 280px; height: 500px;
+      border-radius: 32px; border: 4px solid #333;
+      background: linear-gradient(180deg, #00836C, #006B57);
+      overflow: hidden; position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .phone-content {
+      padding: 20px 16px;
+      height: 100%; overflow-y: auto;
+    }
+    .phone-card {
+      background: white; border-radius: 16px;
+      padding: 14px; margin-bottom: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .phone-card h4 { font-size: 11px; color: #1A2E2A; font-weight: 700; }
+    .phone-card p { font-size: 9px; color: #5F7A74; margin-top: 4px; }
+    
+    .narration {
+      position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.8); border: 1px solid #333;
+      padding: 16px 28px; border-radius: 12px;
+      max-width: 700px; text-align: center;
+      font-size: 0.95rem; color: #ddd; line-height: 1.6;
+    }
+    .narration .speaker { color: #F98220; font-weight: 600; font-size: 0.75rem; margin-bottom: 4px; }
+    
+    .progress-bar {
+      position: fixed; top: 0; left: 0; height: 4px;
+      background: linear-gradient(90deg, #F98220, #00836C);
+      transition: width 0.3s linear; z-index: 100;
+    }
+    
+    .feature-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; max-width: 600px;
+    }
+    .feature-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 20px;
+      text-align: center;
+    }
+    .feature-item .icon { font-size: 2rem; margin-bottom: 8px; }
+    .feature-item .label { font-size: 0.85rem; color: #ccc; }
+    
+    .flow-step {
+      display: flex; align-items: center; gap: 12px;
+      margin: 8px 0; opacity: 0;
+      animation: fadeInStep 0.5s ease forwards;
+    }
+    .flow-step:nth-child(1) { animation-delay: 0.5s; }
+    .flow-step:nth-child(2) { animation-delay: 1s; }
+    .flow-step:nth-child(3) { animation-delay: 1.5s; }
+    .flow-step:nth-child(4) { animation-delay: 2s; }
+    .flow-step:nth-child(5) { animation-delay: 2.5s; }
+    
+    .flow-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #F98220; display: flex; align-items: center;
+      justify-content: center; font-size: 14px; flex-shrink: 0;
+    }
+    .flow-line { font-size: 0.85rem; color: #ddd; }
+    
+    @keyframes fadeInStep {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .nudge-demo {
+      background: white; border-radius: 16px; padding: 16px;
+      max-width: 320px; border-left: 4px solid #F98220;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    }
+    .nudge-demo h4 { font-size: 12px; color: #1A2E2A; font-weight: 700; }
+    .nudge-demo p { font-size: 10px; color: #5F7A74; margin-top: 6px; line-height: 1.5; }
+    .nudge-field {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 0; border-bottom: 1px solid #eee;
+    }
+    .nudge-field .label { font-size: 9px; color: #5F7A74; }
+    .nudge-field .value { font-size: 10px; font-weight: 600; color: #1A2E2A; }
+    .nudge-btn {
+      margin-top: 10px; width: 100%; padding: 8px;
+      background: #00836C; color: white; border: none;
+      border-radius: 20px; font-size: 10px; font-weight: 600;
+    }
+    
+    .score-ring {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 6px solid #eee; border-top-color: #F98220;
+      border-right-color: #F98220; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 800; color: #F98220;
+      animation: spin-partial 2s ease forwards;
+    }
+    @keyframes spin-partial {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .tech-stack {
+      display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+      margin-top: 20px;
+    }
+    .tech-badge {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 8px 16px; border-radius: 20px;
+      font-size: 0.8rem; color: #aaa;
+    }
+    
+    .controls {
+      position: fixed; bottom: 16px; right: 20px;
+      display: flex; gap: 8px; z-index: 100;
+    }
+    .ctrl-btn {
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; padding: 8px 16px; border-radius: 8px;
+      font-size: 0.75rem; cursor: pointer;
+    }
+    .ctrl-btn:hover { background: rgba(255,255,255,0.2); }
+    
+    .timer { position: fixed; top: 12px; right: 16px; font-size: 0.75rem; color: #666; z-index: 100; }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progress"></div>
+  <div class="timer" id="timer">0:00 / 3:00</div>
+  
+  <div class="demo-container">
+    
+    <!-- Slide 0: Title -->
+    <div class="slide active" id="slide-0">
+      <div style="width:60px;height:60px;border-radius:50%;background:#F98220;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+        <svg viewBox="0 0 100 100" width="36" height="36"><circle cx="50" cy="50" r="45" fill="#F98220"/><path d="M50 20 C50 20 35 30 30 50 C27 62 35 78 50 80 C65 78 73 62 70 50 C65 30 50 20 50 20 Z" fill="none" stroke="white" stroke-width="5"/><line x1="50" y1="28" x2="50" y2="72" stroke="white" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="22" r="4" fill="white"/></svg>
+      </div>
+      <div class="slide-title">WealthSeva AI</div>
+      <div class="slide-subtitle">Your Personal AI Wealth Advisor — by IDBI Bank</div>
+      <div style="margin-top: 20px; font-size: 0.8rem; color: #666;">IDBI Innovate 2026 × Hack2Skill × AWS</div>
+      <div class="narration">
+        <div class="speaker">🎙️ NARRATOR</div>
+        Meet WealthSeva AI — an intelligent, multilingual financial advisor built into IDBI Bank's mobile experience. Powered by AWS Bedrock.
+      </div>
+    </div>
+    
+    <!-- Slide 1: Problem -->
+    <div class="slide" id="slide-1">
+      <div class="slide-title" style="font-size:2rem;">The Problem</div>
+      <div class="slide-subtitle" style="margin-bottom:30px;">Why do Indian bank customers struggle financially?</div>
+      <div class="feature-grid">
+        <div class="feature-item"><div class="icon">😕</div><div class="label">No personalized guidance</div></div>
+        <div class="feature-item"><div class="icon">🔁</div><div class="label">Repetitive generic notifications</div></div>
+        <div class="feature-item"><div class="icon">🌐</div><div class="label">English-only fintech solutions</div></div>
+        <div class="feature-item"><div class="icon">📊</div><div class="label">Data shown, never explained</div></div>
+      </div>
+      <div class="narration">
+        <div class="speaker">🎙️ NARRATOR</div>
+        70% of Indian bank customers don't get actionable advice. Apps show numbers but never tell you WHAT to do. Notifications repeat the same thing. And most solutions ignore Hindi and regional language users.
+      </div>
+    </div>
+    
+    <!-- Slide 2: Solution Overview -->
+    <div class="slide" id="slide-2">
+      <div class="slide-title" style="font-size:1.8rem;">The Solution</div>
+      <div style="margin-top: 20px; max-width: 500px;">
+        <div class="flow-step"><div class="flow-dot">1</div><div class="flow-line">Analyzes your real transactions & income patterns</div></div>
+        <div class="flow-step"><div class="flow-dot">2</div><div class="flow-line">Proactively nudges at the RIGHT moment (salary day)</div></div>
+        <div class="flow-step"><div class="flow-dot">3</div><div class="flow-line">Remembers completed actions — never repeats</div></div>
+        <div class="flow-step"><div class="flow-dot">4</div><div class="flow-line">Editable transfers — customer has full control</div></div>
+        <div class="flow-step"><div class="flow-dot">5</div><div class="flow-line">Multilingual: Hindi, English, Kannada</div></div>
+      </div>
+      <div class="narration">
+        <div class="speaker">🎙️ NARRATOR</div>
+        WealthSeva doesn't just show data — it tells you exactly what to do, when to do it, and lets you act instantly. And it learns from your actions.
+      </div>
+    </div>
+    
+    <!-- Slide 3: Smart Nudge -->
+    <div class="slide" id="slide-3">
+      <div style="display:flex;gap:40px;align-items:center;">
+        <div>
+          <div class="slide-title" style="font-size:1.5rem;text-align:left;">Smart Nudge System</div>
+          <div style="color:#aaa;font-size:0.85rem;margin-top:8px;max-width:300px;line-height:1.6;">
+            Context-aware • Editable • Stateful<br>
+            Never shows the same nudge twice.
+          </div>
+        </div>
+        <div class="nudge-demo">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+            <span>🔔</span>
+            <h4>Seva's Advice</h4>
+          </div>
+          <p>Rajesh, your Emergency Fund is 62% complete. Just ₹75,000 more needed. Transfer ₹17,300 this month.</p>
+          <div style="margin-top:10px;">
+            <div class="nudge-field"><span class="label">Amount (₹)</span><span class="value">17,300 ✏️</span></div>
+            <div class="nudge-field"><span class="label">From Account</span><span class="value">IDBI Savings XXXX-4521 ✏️</span></div>
+            <div class="nudge-field"><span class="label">To Account</span><span class="value">IDBI Emergency Fund RD ✏️</span></div>
+            <div class="nudge-field"><span class="label">Remarks</span><span class="value">Emergency Fund ✏️</span></div>
+          </div>
+          <button class="nudge-btn">Confirm Transfer</button>
+        </div>
+      </div>
+      <div class="narration">
+        <div class="speaker">🎙️ NARRATOR</div>
+        After salary credit, Seva suggests transferring ₹17,300 to complete the Emergency Fund. The customer can edit every field — amount, accounts, remarks. Full flexibility, one-tap execution.
+      </div>
+    </div>
+    
+    <!-- Slide 4: Stateful Intelligence -->
+    <div class="slide" id="slide-4">
+      <div class="slide-title" style="font-size:1.8rem;">Stateful Intelligence</div>
+      <div style="display:flex;gap:30px;margin-top:30px;align-items:center;">
+        <div style="text-align:center;">
+          <div style="background:#2a2a4a;border-radius:12px;padding:20px;border:1px solid #444;">
+            <div style="font-size:0.7rem;color:#F98220;font-weight:600;margin-bottom:8px;">FIRST LOGIN</div>
+            <div style="font-size:0.85rem;color:#fff;">🔔 Transfer ₹17,300 to Emergency Fund</div>
+            <div style="font-size:0.7rem;color:#00836C;margin-top:6px;">✓ Action completed</div>
+          </div>
+        </div>
+        <div style="font-size:1.5rem;color:#F98220;">→</div>
+        <div style="text-align:center;">
+          <div style="background:#2a2a4a;border-radius:12px;padding:20px;border:1px solid #444;">
+            <div style="font-size:0.7rem;color:#F98220;font-weight:600;margin-bottom:8px;">NEXT LOGIN</div>
+            <div style="font-size:0.85rem;color:#fff;">🎉 Great job! Surplus used well.</div>
+            <div style="font-size:0.7rem;color:#00836C;margin-top:6px;">Next: Start ₹5,000 SIP →</div>
+          </div>
+        </div>
+      </div>
+      <div class="narration">
+        <div class="speaker">🎙️ NARRATOR</div>
+        The breakthrough — Seva remembers what you've already done. It tracks completed actions and adapts. No repetitive nagging. Next login shows the next logical step based on your remaining surplus.
+      </div>
+    </div>
+    
+    <!-- Slide 5: AI Chat -->
+    <div class="slide" id="slide-5">
+      <div style="display:flex;gap:40px;align-items:center;">
+        <div class="phone-frame" style="width:240px;height:420px;">
+          <div class="phone-content">
+            <div style="color:white;font-size:11px;font-weight:600;margin-bottom:12px;">💬 Seva Chat</div>
+            <div style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:12px;margin-bottom:8px;">
+              <p style="font-size:9px;color:#ddd;">मेरा spending कहाँ ज़्यादा है?</p>
+            </div>
+            <div class="phone-card">
+              <p style="font-size:9px;color:#1A2E2A;line-height:1.5;">Rajesh ji, आपका सबसे ज़्यादा खर्च Food Delivery पर है — ₹4,200/month (औसत से 15% ज़्यादा)। अगर ₹900 बचाकर SIP में डालें तो 10 साल में ₹2.1L बन सकता है। 💡</p>
+            </div>
+            <div style="background:rgba(255,255,255,0.1);padding:8px 12px;border-radius:12px;margin-bottom:8px;">
+              <p style="font-size:9px;color:#ddd;">How to improve my score?</p>
+            </div>
+            <div class="phone-card">
+              <p style="font-size:9px;color:#1A2E2A;line-height:1.5;">Your Wealth Score is 52. To improve: 1) Complete Emergency Fund (+8 pts), 2) Start SIP (+6 pts), 3) Get Term Insurance (+4 pts).</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="slide-title" style="font-size:1.5rem;text-align:left;">AI Chat — Powered by Claude</div>
+          <div style="color:#aaa;font-size:0.85rem;margin-top:12px;max-width:300px;line-height:1.7;">
+            • Understands Hindi, English, Kannada<br>
+            • Grounded in YOUR actual data<br>
+            • Not generic — knows your transactions<br>
+            • Powered by AWS Bedrock (Claude Sonnet)
+          </div>
+        </div>
+      </div>
+      <div class="narration">
+        <div class="speaker">🎙️ NARRATOR</div>
+        The AI chat isn't a generic FAQ bot. Ask in Hindi — "mera spending kahan zyada hai?" — and Seva responds with YOUR actual food delivery numbers and actionable savings suggestions.
+      </div>
+    </div>
+    
+    <!-- Slide 6: Wealth Vitals Score -->
+    <div class="slide" id="slide-6">
+      <div style="display:flex;gap:50px;align-items:center;">
+        <div style="text-align:center;">
+          <div class="score-ring">52</div>
+          <div style="font-size:0.7rem;color:#aaa;margin-top:8px;">Wealth Vitals Score</div>
+        </div>
+        <div>
+          <div class="slide-title" style="font-size:1.5rem;text-align:left;">Gamified Financial Health</div>
+          <div style="margin-top:16px;font-size:0.8rem;color:#ddd;line-height:2;">
+            <div>🛡️ Emergency Fund — <span style="color:#F98220;">12/20</span></div>
+            <div>💰 Debt-to-Income — <span style="color:#00836C;">15/20</span></div>
+            <div>📈 Savings Rate — <span style="color:#F98220;">12/20</span></div>
+            <div>🎯 Investment Diversity — <span style="color:#F98220;">8/20</span></div>
+            <div>⭐ Goal Progress — <span style="color:#F98220;">5/20</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="narration">
+        <div class="speaker">🎙️ NARRATOR</div>
+        A single score — 0 to 100 — gamifies financial wellness. Five sub-scores show exactly where to improve. The score updates dynamically as customers take action. It drives engagement and repeat usage.
+      </div>
+    </div>
+    
+    <!-- Slide 7: Tech Stack -->
+    <div class="slide" id="slide-7">
+      <div class="slide-title" style="font-size:1.8rem;">Built on AWS</div>
+      <div class="slide-subtitle" style="margin-bottom:20px;">Enterprise-ready, scalable to 10Cr+ customers</div>
+      <div class="tech-stack">
+        <div class="tech-badge">🧠 AWS Bedrock (Claude)</div>
+        <div class="tech-badge">🎙️ Amazon Polly</div>
+        <div class="tech-badge">☁️ AWS EC2</div>
+        <div class="tech-badge">⚛️ React + Tailwind</div>
+        <div class="tech-badge">🟢 Node.js + Express</div>
+        <div class="tech-badge">🎭 D-ID Avatar</div>
+      </div>
+      <div style="margin-top:24px;max-width:500px;text-align:center;">
+        <div style="font-size:0.8rem;color:#666;line-height:1.8;">
+          Current: Single EC2 → Production: ECS Fargate + Lambda + DynamoDB<br>
+          100 concurrent → 500,000+ concurrent users
+        </div>
+      </div>
+      <div class="narration">
+        <div class="speaker">🎙️ NARRATOR</div>
+        Built entirely on AWS — Bedrock for AI intelligence, Polly for voice, EC2 for always-on deployment. Designed to scale from hackathon prototype to 10 crore customers with ECS and Lambda.
+      </div>
+    </div>
+    
+    <!-- Slide 8: Closing -->
+    <div class="slide" id="slide-8">
+      <div class="slide-title">WealthSeva AI</div>
+      <div class="slide-subtitle" style="margin-bottom:30px;">Personalized. Proactive. Multilingual. Stateful.</div>
+      <div style="display:flex;gap:24px;margin-bottom:20px;">
+        <div style="text-align:center;"><div style="font-size:2rem;">🇮🇳</div><div style="font-size:0.7rem;color:#aaa;">3 Languages</div></div>
+        <div style="text-align:center;"><div style="font-size:2rem;">🧠</div><div style="font-size:0.7rem;color:#aaa;">AI-Powered</div></div>
+        <div style="text-align:center;"><div style="font-size:2rem;">⚡</div><div style="font-size:0.7rem;color:#aaa;">< 50ms APIs</div></div>
+        <div style="text-align:center;"><div style="font-size:2rem;">🔄</div><div style="font-size:0.7rem;color:#aaa;">Stateful Nudges</div></div>
+      </div>
+      <div style="font-size:0.9rem;color:#F98220;font-weight:600;margin-top:10px;">
+        Try it live → http://34.194.47.61
+      </div>
+      <div style="margin-top:12px;font-size:0.75rem;color:#666;">IDBI Innovate 2026 × Hack2Skill × AWS</div>
+      <div class="narration">
+        <div class="speaker">🎙️ NARRATOR</div>
+        WealthSeva AI — making personalized wealth advice accessible to every Indian. Not just a chatbot. An intelligent financial companion that acts, remembers, and adapts. Thank you.
+      </div>
+    </div>
+  </div>
+  
+  <div class="controls">
+    <button class="ctrl-btn" onclick="prevSlide()">← Prev</button>
+    <button class="ctrl-btn" onclick="togglePause()">⏸ Pause</button>
+    <button class="ctrl-btn" onclick="nextSlide()">Next →</button>
+    <button class="ctrl-btn" onclick="restart()">↺ Restart</button>
+  </div>
+
+  <script>
+    const TOTAL_SLIDES = 9;
+    const SLIDE_DURATION = 20000; // 20 seconds per slide (~3 min total)
+    const TOTAL_DURATION = TOTAL_SLIDES * SLIDE_DURATION;
+    
+    let currentSlide = 0;
+    let startTime = Date.now();
+    let paused = false;
+    let timer;
+    
+    function showSlide(n) {
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      document.getElementById(`slide-${n}`).classList.add('active');
+      currentSlide = n;
+    }
+    
+    function nextSlide() {
+      if (currentSlide < TOTAL_SLIDES - 1) {
+        showSlide(currentSlide + 1);
+      }
+    }
+    
+    function prevSlide() {
+      if (currentSlide > 0) {
+        showSlide(currentSlide - 1);
+      }
+    }
+    
+    function togglePause() {
+      paused = !paused;
+      document.querySelector('.controls button:nth-child(2)').textContent = paused ? '▶ Play' : '⏸ Pause';
+    }
+    
+    function restart() {
+      startTime = Date.now();
+      showSlide(0);
+      paused = false;
+      document.querySelector('.controls button:nth-child(2)').textContent = '⏸ Pause';
+    }
+    
+    function updateProgress() {
+      if (!paused) {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(100, (elapsed / TOTAL_DURATION) * 100);
+        document.getElementById('progress').style.width = progress + '%';
+        
+        const totalSecs = Math.floor(elapsed / 1000);
+        const mins = Math.floor(totalSecs / 60);
+        const secs = totalSecs % 60;
+        document.getElementById('timer').textContent = `${mins}:${secs.toString().padStart(2,'0')} / 3:00`;
+        
+        const targetSlide = Math.min(TOTAL_SLIDES - 1, Math.floor(elapsed / SLIDE_DURATION));
+        if (targetSlide !== currentSlide) {
+          showSlide(targetSlide);
+        }
+      }
+      requestAnimationFrame(updateProgress);
+    }
+    
+    updateProgress();
+    
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === ' ') { e.preventDefault(); togglePause(); }
+    });
+  </script>
+</body>
+</html>

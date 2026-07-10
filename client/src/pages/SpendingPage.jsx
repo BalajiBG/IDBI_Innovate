@@ -36,7 +36,7 @@ export default function SpendingPage() {
     <div className="space-y-5 animate-fade-in">
       <div>
         <h2 className="text-lg font-bold text-idbi-orange font-hindi">{t('spending_title', language)}</h2>
-        <p className="text-xs text-text-secondary">{t('spending_subtitle', language)}</p>
+        <p className="text-xs text-white">{t('spending_subtitle', language)}</p>
       </div>
 
       {/* Salary Flow — where money goes */}

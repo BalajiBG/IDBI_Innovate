@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WealthSeva AI — Diagrams</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, sans-serif; background: #f8fafa; color: #1A2E2A; padding: 40px 20px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .header { text-align: center; margin-bottom: 50px; }
+    .header h1 { font-size: 2rem; font-weight: 800; color: #00836C; }
+    .header p { font-size: 0.9rem; color: #5F7A74; margin-top: 8px; }
+    .diagram-section { margin-bottom: 60px; background: white; border-radius: 16px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .diagram-section h2 { font-size: 1.3rem; font-weight: 700; color: #F98220; margin-bottom: 24px; border-bottom: 2px solid #F98220; padding-bottom: 8px; }
+    .mermaid { display: flex; justify-content: center; overflow-x: auto; }
+    .footer { text-align: center; font-size: 0.75rem; color: #5F7A74; margin-top: 40px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>WealthSeva AI — System Diagrams</h1>
+      <p>IDBI Bank × IDBI Innovate 2026 × Hack2Skill × AWS</p>
+    </div>
+
+    <!-- 1. Process Flow Diagram -->
+    <div class="diagram-section">
+      <h2>1. Process Flow Diagram</h2>
+      <pre class="mermaid">
+flowchart TD
+    A[👤 Customer Login] -->|PIN Auth + JWT| B[🏠 Dashboard]
+    B --> C[📊 Wealth Vitals Score]
+    B --> D[🔔 Smart Nudge Engine]
+    B --> E[💬 AI Chat]
+    B --> F[📈 Spending Analysis]
+    B --> G[🎯 Goals & Investments]
+    B --> H[🛒 Product Recommendations]
+
+    D -->|Checks completed actions| I[🧠 Stateful Nudge API]
+    I -->|Emergency Fund incomplete| J[💰 Suggest Transfer]
+    I -->|Emergency Fund done| K[📈 Suggest SIP]
+    I -->|Surplus exhausted| L[🎉 Good Job - No Action]
+
+    J -->|Customer edits fields| M[✏️ Editable Transfer Form]
+    M -->|Confirm| N[✅ Action Saved to Server]
+    N -->|Next login| I
+
+    E -->|User query in Hindi/En/Kn| O[🧠 AWS Bedrock - Claude]
+    O -->|Grounded in customer data| P[💡 Personalized Response]
+
+    C -->|Calculates from transactions| Q[📋 5 Sub-Scores]
+    Q --> R[Emergency Fund + Debt + Savings + Diversity + Goals]
+
+    F -->|Aggregates 6 months| S[📊 Category Breakdown]
+    S --> T[⚠️ Overspend Detection]
+      </pre>
+    </div>
+
+    <!-- 2. Use-Case Diagram -->
+    <div class="diagram-section">
+      <h2>2. Use-Case Diagram</h2>
+      <pre class="mermaid">
+flowchart LR
+    subgraph Customer
+        UC1[Login in preferred language]
+        UC2[View Financial Health Score]
+        UC3[Receive Smart Nudge]
+        UC4[Edit & Confirm Transfer]
+        UC5[Chat with AI in Hindi/En/Kn]
+        UC6[View Spending Breakdown]
+        UC7[Track Goals & Progress]
+        UC8[Browse Recommended Products]
+        UC9[Manage Accounts & Assets]
+    end
+
+    subgraph AI Engine
+        AG1[Smart Nudge Engine]
+        AG2[Wealth Vitals Calculator]
+        AG3[Bedrock Chat Agent]
+        AG4[Spending Analyzer]
+        AG5[Gap Detection Engine]
+    end
+
+    subgraph AWS Services
+        S1[AWS Bedrock - Claude Sonnet]
+        S2[Amazon Polly - TTS]
+        S3[D-ID - Avatar]
+        S4[EC2 - Deployment]
+    end
+
+    UC3 --> AG1
+    AG1 -->|Checks past actions| AG1
+    AG1 -->|Adapts nudge| UC4
+    UC2 --> AG2
+    AG2 -->|Score from transactions| UC2
+    UC5 --> AG3
+    AG3 --> S1
+    S1 --> AG3
+    AG3 --> S2
+    UC6 --> AG4
+    UC8 --> AG5
+    AG5 -->|Missing insurance/SIP/PPF| UC8
+      </pre>
+    </div>
+
+    <!-- 3. Architecture Diagram -->
+    <div class="diagram-section">
+      <h2>3. Architecture Diagram</h2>
+      <pre class="mermaid">
+flowchart TB
+    subgraph Frontend
+        FE[Mobile-First React SPA]
+        CTX[Context API - Auth/Chat/Language]
+        PAGES[Dashboard - Chat - Spending - Goals - Products]
+    end
+
+    subgraph Server
+        API[REST API Layer]
+        AUTH[JWT Authentication]
+        NUDGE[Smart Nudge Engine]
+        DATA[Data and Transaction API]
+        CHAT[Chat Router]
+    end
+
+    subgraph AI
+        BEDROCK[AWS Bedrock - Claude Sonnet]
+        POLLY[Amazon Polly - Neural TTS]
+        DID[D-ID Avatar API]
+        SCORE[Wealth Vitals Calculator]
+        SPEND[Spending Intelligence]
+    end
+
+    subgraph Infra
+        EC2[AWS EC2 - t2.micro]
+        PM2[PM2 Process Manager]
+        EIP[Elastic IP - Always On]
+        VITE[Vite Build - Static Assets]
+    end
+
+    subgraph Future
+        LAMBDA[AWS Lambda]
+        DDB[DynamoDB]
+        ECS[ECS Fargate]
+        APIGW[API Gateway]
+        CDN[CloudFront CDN]
+    end
+
+    FE --> CTX
+    CTX --> PAGES
+    PAGES -->|HTTPS Port 80| API
+    API --> AUTH
+    API --> NUDGE
+    API --> DATA
+    API --> CHAT
+    CHAT --> BEDROCK
+    CHAT --> POLLY
+    NUDGE --> SCORE
+    DATA --> SPEND
+    EC2 --> PM2
+    EC2 --> EIP
+      </pre>
+    </div>
+
+    <div class="footer">
+      <p>WealthSeva AI — IDBI Innovate 2026 | Team Submission</p>
+      <p style="margin-top:4px;">Live App: <a href="http://ec2-34-194-47-61.compute-1.amazonaws.com" style="color:#00836C;">ec2-34-194-47-61.compute-1.amazonaws.com</a></p>
+    </div>
+  </div>
+
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', themeVariables: { primaryColor: '#00836C', primaryTextColor: '#fff', primaryBorderColor: '#006B57', lineColor: '#F98220', secondaryColor: '#FFF3E0', tertiaryColor: '#E8F5F2' } });
+  </script>
+</body>
+</html>
